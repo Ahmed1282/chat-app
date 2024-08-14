@@ -1,0 +1,91 @@
+/* Signup Container */
+.signup-container {
+  width: 500px;
+  height: 618px;
+  position: absolute;
+  top: 220px;
+  left: 470px;
+  /* gap: 0px; */
+  border-radius: 8px 8px 8px 8px;
+  background: var(--Button-Text, #E6EEF2);
+  /* opacity: 0px; */
+}
+
+
+
+/* Signup Title */
+.signup-title {
+  width: 155px;
+  height: 56px;
+  position: absolute;
+  top: 40px;
+  left: 173px;
+  font-family: 'Righteous';
+  font-size: 45px;
+  font-weight: bold;
+  line-height: 55.88px;
+  letter-spacing: 0.05em;
+  text-align: left;
+  color: var(--Primary-Color, #06334D);
+  /* opacity: 0px; */
+}
+
+/* Text Fields */
+.signup-input {
+  width: 328px;
+  height: 48px;
+  position: absolute;
+  top: 120px;
+  left: 86px;
+  padding: 8px 16px;
+  gap: 10px;
+  border-radius: 8px 0px 0px 0px;
+  border: 1px solid var(--Blue-Fade-3, #97B4CC);
+  opacity: 0px;
+  box-sizing: border-box;
+}
+
+/* Signup Button */
+.signup-button {
+  width: 328px;
+  height: 48px;
+  position: absolute;
+  top: 404px;
+  left: 86px;
+  gap: 0px;
+  opacity: 0px;
+  background: var(--Primary-Color, #06334D);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Line Under Button */
+.signup-underline {
+  width: 328px;
+  height: 14px;
+  position: absolute;
+  top: 484px;
+  left: 86px;
+  gap: 0px;
+  opacity: 0px;
+  background: var(--Blue-Fade-3, #97B4CC);
+}
+
+/* Redirect Button to Login */
+.login-redirect-button {
+  width: 328px;
+  height: 48px;
+  position: absolute;
+  top: 530px;
+  left: 86px;
+  padding: 8px 16px;
+  gap: 10px;
+  border-radius: 8px 0px 0px 0px;
+  border: 1px solid var(--Primary-Color, #06334D);
+  background: var(--Button-Text, #E6EEF2);
+  color: var(--Primary-Color, #06334D);
+  cursor: pointer;
+  opacity: 0px;
+}
