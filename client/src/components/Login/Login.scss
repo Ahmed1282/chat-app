@@ -1,0 +1,129 @@
+body {
+    display: flex;
+    justify-content: center;  /* Horizontally centers the content */
+    align-items: center;  /* Vertically centers the content */
+    height: 100vh;  /* Ensure body takes up full viewport height */
+    margin: 0;  /* Remove default body margin */
+  }
+  
+  /* Login Container */
+  .login-container {
+    width: 100%;
+    max-width: 500px;  /* Maximum width of the container */
+    height: 100%;
+    padding: 40px 20px;  /* Adds padding inside the container */
+    border-radius: 8px;  /* Curved borders */
+    background: var(--Button-Text, #E6EEF2);
+    display: flex;
+    flex-direction: column;  /* Stack children vertically */
+    align-items: center;  /* Center children horizontally */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);  /* Optional: Adds a subtle shadow */
+    margin: 0 86px;  /* Responsive margins */
+  }
+  
+  /* Login Title */
+  .login-title {
+    font-family: 'Righteous';
+    font-size: 45px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: var(--Primary-Color, #06334D);
+    margin-bottom: 40px;  /* Space between title and input fields */
+    margin-left: 86px;  /* Margin left of the title */
+    margin-right: 86px;  /* Margin right of the title */
+    text-align: center;  /* Center title text */
+  }
+  
+  /* Text Fields */
+  .login-input {
+    width: calc(100% - 172px);  /* Full width minus left and right margins */
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--Blue-Fade-3, #97B4CC); 
+    box-sizing: border-box;
+    background-color: #E6EEF2;
+    font-size: 16px;
+    color: #000000;
+    margin-left: 86px;  /* Margin left of the input fields */
+    margin-right: 86px;  /* Margin right of the input fields */
+  }
+  
+  /* Placeholder Text */
+  .login-input::placeholder {
+    color: var(--Blue-Fade-3, #97B4CC);  /* Default placeholder color */
+  }
+  
+  /* When input field is selected (focused) */
+  .login-input:focus {
+    border-color: #000000;  /* Change border to black when focused */
+    outline: none;
+  }
+  
+  /* Change placeholder color to black when focused */
+  .login-input:focus::placeholder {
+    color: #000000;  /* Change placeholder color to black */
+  }
+  
+  /* When there is input in the field */
+  .login-input:not(:placeholder-shown) {
+    border-color: #000000;  /* Change border to black when input is provided */
+  }
+  
+  /* Login Button */
+  .login-button {
+    width: calc(100% - 172px);  /* Full width minus left and right margins */
+    padding: 12px;
+    margin-top: 20px;
+    background: var(--Primary-Color, #06334D);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-left: 86px;  /* Margin left of the button */
+    margin-right: 86px;  /* Margin right of the button */
+  }
+  
+  /* Login Separator */
+  .login-separator {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 172px);  /* Full width minus left and right margins */
+    margin: 20px 0;  /* Vertical margin between elements */
+    position: relative;
+  }
+  
+  .separator-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--Blue-Fade-3, #97B4CC);
+  }
+  
+  .separator-text {
+    padding: 0 10px;
+    font-size: 16px;
+    color: var(--Blue-Fade-3, #97B4CC);
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  /* Redirect Button to Signup */
+  .signup-redirect-button {
+    width: calc(100% - 172px);  /* Full width minus left and right margins */
+    padding: 12px 16px;
+    border-radius: 8px;
+    border-color: #000000; 
+    box-sizing: border-box;
+    background-color: #E6EEF2;
+    font-size: 16px;
+    color: #4F4F4F;
+    margin-left: 86px;  /* Margin left of the input fields */
+    margin-right: 86px;  /* Margin right of the button */
+    font-weight: normal; 
+  }
+  
+  .signup-text {
+    color: var(--Primary-Color, #06334D);  /* Color for the "Signup" text */
+  }
+  

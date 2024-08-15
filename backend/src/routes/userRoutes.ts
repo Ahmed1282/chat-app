@@ -1,11 +1,12 @@
-// src/routes/userRoutes.ts
+
 import express from 'express';
-import Signup from '../controllers/userController'; // Correct import path
+import {Signup, Login} from '../controllers/userController'; 
 
 const router = express.Router();
 
 
-// Route for user signup
 router.post('/signup', Signup);
+
+router.post('/login', Login);
 
 export default router;

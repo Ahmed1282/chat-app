@@ -2,7 +2,20 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/db'; // Adjust the path as necessary
 
-class User extends Model {
+interface UserAttributes {
+  id?: number;
+  name: string;
+  username: string;
+  password: string;
+  number: string;
+  email: string;
+  display?: string;
+  info?: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number;
   public name!: string;
   public username!: string;
@@ -10,9 +23,9 @@ class User extends Model {
   public number!: string;
   public email!: string;
   public display!: string;
-  public info?: string;
-  public created_at!: Date; // Explicitly add created_at
-  public updated_at!: Date; // Explicitly add updated_at
+  public info!: string;
+  public created_at!: Date;
+  public updated_at!: Date;
 }
 
 User.init({
@@ -47,7 +60,7 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
     validate: {
-      isUrl: true, // Ensures that the value is a valid URL
+      isUrl: true, 
     },
   },
   info: {
@@ -57,18 +70,17 @@ User.init({
   created_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at' // Map to created_at in the database
+    field: 'created_at' 
   },
   updated_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at' // Map to updated_at in the database
+    field: 'updated_at'
   },
 }, {
   sequelize,
   modelName: 'User',
-  tableName: 'user', // Specify the table name
-  //timestamps: true, // Automatically adds `created_at` and `updated_at` fields
+  tableName: 'user',
   underscored: true,
 });
 

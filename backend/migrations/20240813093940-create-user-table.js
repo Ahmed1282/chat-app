@@ -33,6 +33,7 @@ module.exports = {
       },
       info: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       display: {
         type: Sequelize.STRING,

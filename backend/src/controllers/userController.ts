@@ -20,4 +20,19 @@ const Signup = async (req: Request, res: Response) => {
   }
 };
 
-export default Signup;
+const Login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const userdata = await UserService.login(email, password);
+    res.status(201).json({ userdata });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred.' });
+    }
+  }
+};
+
+export {Signup, Login};
