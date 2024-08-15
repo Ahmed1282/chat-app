@@ -26,3 +26,7 @@ export const handleSignup = async (
     }
   }
 };
+
+export const redirectToLogin = () => {
+  window.location.href = 'http://localhost:5173/login';
+};

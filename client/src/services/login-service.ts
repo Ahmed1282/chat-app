@@ -1,8 +1,9 @@
-import axios from 'axios';
+// src/services/login-service.ts
+import axiosInstance from './axiosInstance';
 
 export const handleLogin = async (email: string, password: string) => {
   try {
-    const response = await axios.post('http://localhost:3000/api/users/login', {
+    const response = await axiosInstance.post('/api/users/login', {
       email,
       password,
     });
@@ -10,8 +11,8 @@ export const handleLogin = async (email: string, password: string) => {
     console.log('Login successful:', response.data);
 
     const { userdata } = response.data;
-    const authToken = userdata.token;  
-    const user = userdata.user;       
+    const authToken = userdata.token;
+    const user = userdata.user;
 
     if (typeof authToken === 'string' && user && typeof user === 'object') {
       localStorage.setItem('userDetails', authToken);
@@ -20,9 +21,9 @@ export const handleLogin = async (email: string, password: string) => {
       console.error('Unexpected response format:', response.data);
     }
 
-    window.location.href = 'http://localhost:5173'
+    window.location.href = 'http://localhost:5173/dashboard';
   } catch (error) {
     console.error('Error during login:', error);
-    alert("Error, kindly check your inputs");
+    alert('Error, kindly check your inputs');
   }
 };

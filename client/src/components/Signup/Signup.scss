@@ -60,11 +60,6 @@ body {
   outline: none;
 }
 
-/* Change placeholder color to black when focused */
-.signup-input:focus::placeholder {
-  color: #000000;  /* Change placeholder color to black */
-}
-
 /* When there is input in the field */
 .signup-input:not(:placeholder-shown) {
   border-color: #000000;  /* Change border to black when input is provided */

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { handleSignup } from '../../services/signup-service';
+import { handleSignup, redirectToLogin } from '../../services/signup-service';
 import './Signup.scss';
 
 const Signup: React.FC = () => {
@@ -28,9 +28,6 @@ const Signup: React.FC = () => {
     }
   };
 
-  const redirectToLogin = () => {
-    window.location.href = 'http://localhost:5173/login';
-  };
 
   return (
     <div className="signup-container">

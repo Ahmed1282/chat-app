@@ -1,0 +1,49 @@
+.navbar {
+  padding: 0; /* Remove padding if it's causing alignment issues */
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start of the sidebar */
+}
+
+.navbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0px; /* No gap between the title and the line */
+  width: 100%; /* Ensures the title and line use the full width of the sidebar */
+  top: 16px;
+  gap: 16px;
+  //opacity: 0px;
+}
+
+
+
+
+.title-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 23.44px;
+  text-align: left;
+  color: var(--Primary-Color, #06334D);
+  width: 100%; /* Makes sure the title is responsive */
+  box-sizing: border-box; /* Ensures padding and borders are included in the width */
+}
+
+.title-line {
+  width: 100%; /* Ensures the line is responsive */
+  border-top: 0.5px solid #005F93;
+  margin-top: 8px; /* Adjusts the spacing between the title and the line */
+}
+
+.user-item {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  background-color: #f2f9ff;
+  border-radius: 4px;
+}
+
+.user-item:hover {
+  background-color: #e0f4ff;
+}

@@ -1,0 +1,34 @@
+.home-container {
+  display: flex;
+  height: 100vh; /* Ensure it takes the full viewport height */
+  width: 1348px;
+//height: 960px;
+top: 64px;
+left: 92px;
+gap: 0px;
+opacity: 0px;
+background: var(--Blue-0, #FAFDFF);
+
+}
+
+
+
+.sidebar {
+  //width: 250px; /* Adjust width as needed */
+  width: 320px;
+height: 960px;
+gap: 0px;
+border: 2px 0px 0px 0px;
+opacity: 0px;
+
+  background: var(--Blue-Fade-0, #F2F9FF);
+  ; /* Optional background color */
+  padding: 20px; /* Add padding for some space around the content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
+}
+
+.main-content {
+  flex: 1; /* Take the remaining width of the container */
+  padding: 20px; /* Add padding around the main content */
+  color: var(--Primary-Color, #06334D);
+}

@@ -119,3 +119,127 @@ body {
   cursor: pointer;
   opacity: 0px;
 }
+
+
+
+//-----------------------------------------------------//
+
+// src/components/Home.tsx
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
+import Navbar from '../Navbar/Navbar';
+import axiosInstance from '../../services/axiosInstance';
+import './Home.css';
+import { Socket } from 'socket.io-client';
+
+// Define the type for the received message
+interface Message {
+  from: string;
+  message: string;
+}
+
+// Define the type for the users object
+interface Users {
+  [username: string]: string; // Maps username to socket ID
+}
+
+const Home: React.FC = () => {
+  const [username] = useState<string>(uuidv4());
+  const [message, setMessage] = useState<string>('');
+  const [recipient, setRecipient] = useState<string>('');
+  const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState<Users>({});
+  const [socket, setSocket] = useState<Socket>();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosInstance.get('/api/users/names');
+        console.log(`user ${response.data}`);
+        const usersList = response.data;
+        const usersObject: Users = {};
+        usersList.forEach((user: { username: string }) => {
+          usersObject[user.username] = ''; // Add username with an empty socket ID
+        });
+        setUsers(usersObject);
+        
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+
+    const socket = io('http://localhost:3000');
+    setSocket(socket);
+    socket.emit('register', username);
+
+    socket.on('update_users', (usersList: string[]) => {
+      const usersObject: Users = {};
+      usersList.forEach(user => {
+        usersObject[user] = ''; // Add username with an empty socket ID
+      });
+      setUsers(usersObject);
+    });
+
+    socket.on('receive_message', (data: Message) => {
+      setReceivedMessages(prevMessages => [...prevMessages, data]);
+    });
+
+    return () => {
+      socket.off('update_users');
+      socket.off('receive_message');
+    };
+  }, [username]);
+
+  const handleSendMessage = () => {
+    if (username.trim() && recipient.trim() && message.trim() && socket) {
+      socket.emit('send_message', JSON.stringify({ from: username, to: recipient, message }));
+      setMessage('');
+    }
+  };
+
+  return (
+    <div className="home-container">
+      <div className="sidebar">
+        <Navbar users={users} />
+      </div>
+      <div className="main-content">
+        <h1>Socket.IO Messaging</h1>
+
+        <div>
+          <h2>Send Message</h2>
+          <input
+            type="text"
+            placeholder="Recipient username"
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button onClick={handleSendMessage}>Send Message</button>
+        </div>
+
+        <div>
+          <h2>Received Messages</h2>
+          <ul>
+            {receivedMessages.map((msg, index) => (
+              <li key={index}>
+                <strong>{msg.from}:</strong> {msg.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
+//----------------------------------------------------//
