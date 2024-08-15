@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      password: { // Add password field
+      password: { 
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
         validate: {
-          isUrl: true, // Ensures that the value is a valid URL
+          isUrl: true, 
         },
       },
       created_at: {

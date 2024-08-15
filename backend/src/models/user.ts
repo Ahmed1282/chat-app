@@ -1,6 +1,6 @@
 // src/models/user.ts
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/db'; // Adjust the path as necessary
+import sequelize from '../config/db'; 
 
 interface UserAttributes {
   id?: number;
