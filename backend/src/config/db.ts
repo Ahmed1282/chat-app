@@ -10,7 +10,7 @@ const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   dialect: process.env.DB_DIALECT as 'postgres',
-  logging: console.log, // Enables logging; set to `false` to disable
+  //logging: console.log, // Enables logging; set to `false` to disable
 });
 
 export default sequelize;
