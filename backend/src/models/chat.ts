@@ -3,14 +3,14 @@ import sequelize from '../config/db';
 
 interface ChatAttributes {
   id?: number;
-  sender_id: number;
+  receiver_id: number;
   created_at?: Date;
   updated_at?: Date;
 }
 
 class Chat extends Model<ChatAttributes> implements ChatAttributes {
   public id!: number;
-  public sender_id!: number;
+  public receiver_id!: number;
   public created_at!: Date;
   public updated_at!: Date;
 }
@@ -21,7 +21,7 @@ Chat.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  sender_id: {
+  receiver_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {

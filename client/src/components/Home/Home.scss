@@ -1,34 +1,113 @@
-.home-container {
+.home {
   display: flex;
-  height: 100vh; /* Ensure it takes the full viewport height */
-  width: 1348px;
-//height: 960px;
-top: 64px;
-left: 92px;
-gap: 0px;
-opacity: 0px;
-background: var(--Blue-0, #FAFDFF);
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 
-}
+  .sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1;
+  }
 
+  .chatbox {
+    margin-left: 0px;
+    width: calc(100% - 250px);
+    height: 100vh;
+    display: flex;
+    padding: 0px;
+    flex-direction: column;
+    background-color: #fafafa;
+    color: #000;
 
+    .message-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ddd;
+      padding: 30px;
+      background: var(--Button-Text, #E6EEF2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      position: relative;
 
-.sidebar {
-  //width: 250px; /* Adjust width as needed */
-  width: 320px;
-height: 960px;
-gap: 0px;
-border: 2px 0px 0px 0px;
-opacity: 0px;
+      .message-list {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
 
-  background: var(--Blue-Fade-0, #F2F9FF);
-  ; /* Optional background color */
-  padding: 20px; /* Add padding for some space around the content */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
-}
+        .message {
+          margin-bottom: 10px;
+          padding: 10px;
+          color: #000;
+          position: relative;
 
-.main-content {
-  flex: 1; /* Take the remaining width of the container */
-  padding: 20px; /* Add padding around the main content */
-  color: var(--Primary-Color, #06334D);
+          strong {
+            color: var(--Primary-Color, #06334D);
+            display: block;
+            margin-bottom: 5px;
+          }
+
+          .timestamp {
+            color: #888; 
+            font-size: 0.8em; 
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: auto;
+
+        textarea {
+          width: 100%;
+          height: 80px;
+          border-radius: 8px;
+          border: 2px solid #B7DDF2;
+          resize: none;
+          box-sizing: border-box;
+          background: #D6E7F0;
+          font-size: 1.5em;
+          color: #000000;
+          margin-right: 10px;
+
+          &:focus {
+            border-color: var(--Blue-Fade-0, #F2F9FF);
+            outline: none;
+          }
+        }
+
+        button {
+          background: var(--Blue-Fade-0, #0483f3);
+          color: #fff;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 0.9em;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+
+          &:disabled {
+            background-color: #d6d6d6;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
 }

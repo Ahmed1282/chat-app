@@ -20,6 +20,19 @@ class MessageService {
       }
     }
   }
+
+  async getMessagesByChatId(chat_id: number): Promise<Message[]> {
+    try {
+      const messages = await Message.findAll({ where: { chat_id } });
+      return messages;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Error in getMessagesByChatId: ${error.message}`);
+      } else {
+        throw new Error('Error in getMessagesByChatId: An unknown error occurred.');
+      }
+    }
+  }
 }
 
 export default new MessageService();
