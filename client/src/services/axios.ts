@@ -1,15 +1,12 @@
-// src/services/axiosInstance.ts
 import axios from 'axios';
 
-// Create an instance of Axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', // Your API base URL
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-// Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('userDetails'); // Retrieve token from local storage
+    const token = localStorage.getItem('userDetails');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -18,14 +15,11 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Add a response interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle errors globally here if needed
     if (error.response && error.response.status === 401) {
-      // Redirect to login page if unauthorized (401)
-      window.location.href = 'http://localhost:5173/login';
+      window.location.href = import.meta.env.VITE_LOGIN_URL;
     }
     return Promise.reject(error);
   }

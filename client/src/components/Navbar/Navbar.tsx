@@ -1,16 +1,18 @@
 import React from 'react';
 import './Navbar.scss';
+import { NavbarProps } from '../../interfaces/navarbar-type';
 
-type NavbarProps = {
-  users: { [username: string]: number };
-  onUserClick: (username: string, userId: number) => void;
-  currentUsername: string;
-};
 
-const Navbar: React.FC<NavbarProps> = ({ users, onUserClick, currentUsername }) => {
-  const sortedUsernames = Object.keys(users).sort((a, b) => {
-    if (a === currentUsername) return -1;
-    if (b === currentUsername) return 1;
+const Navbar: React.FC<NavbarProps> = ({
+  users,
+  onUserClick,
+  currentUsername,
+  userStatus,
+  currentRecipientUsername, 
+}) => {
+  const sortedUsernames = Object.keys(users).sort((userNotFirst, userFirst) => {
+    if (userNotFirst === currentUsername) return -1;
+    if (userFirst === currentUsername) return 1;
     return 0;
   });
 
@@ -20,15 +22,27 @@ const Navbar: React.FC<NavbarProps> = ({ users, onUserClick, currentUsername }) 
         <div className="title-text">QLU Recruiting</div>
         <div className="title-line"></div>
       </div>
-      <ul>
+      <div>
         {sortedUsernames.map((username) => (
-          <li key={username} onClick={() => onUserClick(username, users[username])}>
-            <div className="user-item">
-              {username === currentUsername ? 'Me' : username}
-            </div>
-          </li>
+          <div
+            key={username}
+            onClick={() => onUserClick(username, users[username])}
+            className={`user-item ${
+              currentRecipientUsername === username ? 'selected' : ''
+            }`}
+          >
+            <span
+              className={`status-dot ${
+                userStatus[users[username]] ? 'active' : 'inactive'
+              }`}
+            ></span>
+            {username === currentUsername ? 'Me' : username}
+          </div>
         ))}
-      </ul>
+      </div>
+      <div className="current-username">
+        <strong>{currentUsername}</strong>
+      </div>
     </div>
   );
 };

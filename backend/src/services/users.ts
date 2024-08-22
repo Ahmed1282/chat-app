@@ -3,11 +3,8 @@ import { User } from '../models/user';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { UserLoginResponse } from '../interfaces/user-login';
-import { UserAttributes } from  '../interfaces/user-attributes';
-
-
-const saltRounds = 10;
+import { UserAttributes, SignupParams, UserLoginResponse } from  '../interfaces/user';
+import { saltRounds } from '../utils/salt.rounds';
 
 class UserService {
   async signup(
@@ -34,11 +31,7 @@ class UserService {
 
       return newUser;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error in signup: ${error.message}`);
-      } else {
-        throw new Error('Error in signup: An unknown error occurred.');
-      }
+      throw new Error(`Error in signup: ${error}`);
     }
   }
 
@@ -69,30 +62,19 @@ class UserService {
         },
       };
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error in login: ${error.message}`);
-      } else {
-        throw new Error('Error in login: An unknown error occurred.');
-      }
+      throw new Error(`Error in login: ${error}`);
     }
   }
 
   async getAllUsers(): Promise<UserAttributes[]> {
     try {
       const users = await User.findAll({
-        attributes: { exclude: ['password'] },// Exclude the password field
-        //raw: true,  // This will return plain objects instead of Sequelize instances
+        attributes: { exclude: ['password'] },
       });
-
-      // console.log(`users: ${JSON.stringify(users, null, 2)}`);
 
       return users;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error in getAllUsers: ${error.message}`);
-      } else {
-        throw new Error('Error in getAllUsers: An unknown error occurred.');
-      }
+      throw new Error(`Error in getAllUsers: ${error}`);
     }
   }
 }

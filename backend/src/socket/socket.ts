@@ -1,57 +1,67 @@
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
+import { UserStatusMapType, UserConnections } from '../interfaces/socket';
+import MessageService from '../services/messages';
 
-interface Users {
-    [userId: number]: string;
-}
-
-const users: Users = {};
+const userStatus: UserStatusMapType = {};
+const users: Record<number, UserConnections> = {};
 
 export const setupSocket = (io: Server) => {
-    io.on('connection', (socket: Socket) => {
-        console.log(`User connected: ${socket.id}`);
+  io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
 
-        socket.on('register', (data) => {
-            try {
-                const { userId } = JSON.parse(data);
-                if (typeof userId !== 'number') return;
-                users[userId] = socket.id;
-                io.emit('update_users', Object.keys(users));
-            } catch (error) {
-                console.error('Error processing registration:', error);
-            }
-        });
+    const userIdQuery = socket.handshake.query.userId as string;
+    const userId = userIdQuery ? Number(userIdQuery) : undefined;
 
-        socket.on('send_message', (data: any) => {
-            try {
-                const { fromId, toId, message } = JSON.parse(data);
-                if (typeof fromId !== 'number' || typeof toId !== 'number' || typeof message !== 'string') return;
-                const created_at = new Date().toISOString();
-                const messageData = { fromId, message, created_at };
+    if (userId !== undefined) {
+      userStatus[userId] = { socketId: socket.id, status: 'active' };
+      users[userId] = { userId, socket: { socketId: socket.id } };
 
-                const recipientSocketId = users[toId];
-                const senderSocketId = users[fromId];
+      console.log(`User ${userId} is now active with socket ${socket.id}`);
 
-                if (recipientSocketId) {
-                    io.to(recipientSocketId).emit('receive_message', messageData);
-                }
+      io.emit('user_status_update', { userId, status: 'active' });
 
-                if (senderSocketId) {
-                    io.to(senderSocketId).emit('receive_message', messageData);
-                }
-            } catch (error) {
-                console.error('Error processing message:', error);
-            }
-        });
+      io.emit('active_users', Object.keys(userStatus).map(id => ({
+        userId: Number(id),
+        status: userStatus[Number(id)].status,
+      })));
+    } else {
+      console.warn('No userId provided in the handshake query');
+    }
 
-        socket.on('disconnect', () => {
-            console.log(`User disconnected: ${socket.id}`);
-            for (const userId in users) {
-                if (users[userId] === socket.id) {
-                    delete users[Number(userId)];
-                    io.emit('update_users', Object.keys(users));
-                    break;
-                }
-            }
-        });
+    socket.on('send_message', async (data) => {
+      const { fromId, toId, message } = data;
+
+      try {
+        const newMessage = await MessageService.postMessage(fromId, toId, message);
+        const created_at = newMessage.created_at ? newMessage.created_at.toISOString() : new Date().toISOString();
+
+        const messageData = {
+          fromId,
+          toId,
+          message,
+          created_at,
+        };
+
+        const recipientSocket = users[toId]?.socket;
+
+        if (recipientSocket) {
+          io.to(recipientSocket.socketId).emit('receive_message', messageData);
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     });
+
+    socket.on('disconnect', () => {
+      console.log(`User disconnected: ${socket.id}`);
+      for (const userId in users) {
+        if (users[Number(userId)].socket.socketId === socket.id) {
+          delete userStatus[userId];
+          delete users[Number(userId)];
+          io.emit('user_status_update', { userId: Number(userId), status: 'inactive' });
+          break;
+        }
+      }
+    });
+  });
 };

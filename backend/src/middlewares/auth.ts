@@ -1,14 +1,8 @@
-// src/middleware/auth.ts
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/user';
-import { CustomRequest } from '../interfaces/user-jwt'
+import { CustomRequest, JwtPayload } from '../interfaces/user';
 
-interface JwtPayload {
-  email: string;
-}
-
-export const AuthToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
+export const AuthToken = (req: CustomRequest, res: Response, next: NextFunction) => {
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -16,29 +10,11 @@ export const AuthToken = async (req: CustomRequest, res: Response, next: NextFun
   }
 
   try {
-    let tokenString = token;
+    const decoded = jwt.verify(token.split(' ')[1], process.env.SECRET!) as JwtPayload;
 
-    if (!token.startsWith('Bearer ')) {
-      tokenString = `Bearer ${token}`;
-    }
-
-    const decoded = jwt.verify(tokenString.split(' ')[1], process.env.SECRET!) as JwtPayload;
-
-    const user = await User.findOne({ where: { email: decoded.email } });
-    if (!user) {
-      return res.status(401).json({ error: 'User not authorized' });
-    }
-
-    req.user = user; 
+    req.userEmail = decoded.email;
     next();
   } catch (error) {
-    if (error instanceof Error) {
-      console.error('JWT Verification Error:', error.message);
-      return res.status(401).json({ error: 'Invalid token' });
-    } else {
-      console.error('JWT Verification Error: An unknown error occurred.');
-      return res.status(401).json({ error: 'Invalid token' });
-    }
+    res.status(401).json({ message: 'Invalid token or unauthorized access.' });
   }
-  
 };

@@ -1,9 +1,0 @@
-{
-    "username": "ahmed",
-    "password": "1234",
-    "database": "postgres",
-    "host": "localhost",
-    "dialect": "postgres",
-    "port": 5432
-  }
-  

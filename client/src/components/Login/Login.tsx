@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { handleLogin } from '../../services/login-service';
+import { handleLogin } from '../../services/login';
 import './Login.scss';
 
 const Login: React.FC = () => {
@@ -12,7 +12,7 @@ const Login: React.FC = () => {
   };
 
   const redirectToSignup = () => {
-    window.location.href = 'http://localhost:5173/signup';
+    window.location.href = import.meta.env.VITE_SIGNUP_URL;
   };
 
   return (

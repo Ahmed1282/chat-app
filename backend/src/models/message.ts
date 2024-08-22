@@ -1,24 +1,11 @@
-// src/models/message.ts
-import { Model, DataTypes, Optional } from 'sequelize';
-import sequelize from '../config/db'; 
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../config/db';
 import { User } from './user';
-import { Chat } from './chat'; // Ensure Chat model is imported
 
-interface MessageAttributes {
-  id?: number;
-  sender_id: number;
-  chat_id: number; // Add chat_id here
-  message_str: string;
-  created_at?: Date;
-  updated_at?: Date;
-}
-
-interface MessageCreationAttributes extends Optional<MessageAttributes, 'id'> {}
-
-class Message extends Model<MessageAttributes, MessageCreationAttributes> implements MessageAttributes {
+class Message extends Model {
   public id!: number;
   public sender_id!: number;
-  public chat_id!: number; // Add chat_id here
+  public receiver_id!: number;
   public message_str!: string;
   public created_at!: Date;
   public updated_at!: Date;
@@ -40,11 +27,11 @@ Message.init({
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   },
-  chat_id: {
+  receiver_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'chat', // This should match the table name of the Chat model
+      model: 'user',
       key: 'id',
     },
     onDelete: 'CASCADE',
@@ -72,6 +59,6 @@ Message.init({
 });
 
 Message.belongsTo(User, { foreignKey: 'sender_id', as: 'sender' });
-Message.belongsTo(Chat, { foreignKey: 'chat_id', as: 'chat' }); // Define the relationship with Chat model
+Message.belongsTo(User, { foreignKey: 'receiver_id', as: 'receiver' });
 
 export { Message };

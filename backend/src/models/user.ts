@@ -1,21 +1,7 @@
-// src/models/user.ts
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/db'; 
 
-interface UserAttributes {
-  id?: number;
-  name: string;
-  username: string;
-  password: string;
-  number: string;
-  email: string;
-  display?: string;
-  info?: string;
-  created_at?: Date;
-  updated_at?: Date;
-}
-
-class User extends Model<UserAttributes> implements UserAttributes {
+class User extends Model {
   public id!: number;
   public name!: string;
   public username!: string;
@@ -70,12 +56,12 @@ User.init({
   created_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'created_at' 
+    field: 'created_at', 
   },
   updated_at: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'updated_at'
+    field: 'updated_at',
   },
 }, {
   sequelize,

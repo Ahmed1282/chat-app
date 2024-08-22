@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { handleSignup, redirectToLogin } from '../../services/signup-service';
+import { handleSignup, redirectToLogin } from '../../services/signup';
 import './Signup.scss';
 
 const Signup: React.FC = () => {
@@ -20,7 +20,6 @@ const Signup: React.FC = () => {
 
     try {
       await handleSignup(name, username, password, phoneNumber, email);
-      console.log('Signup successful');
       redirectToLogin();
     } catch (error) {
       console.error('Error during signup:', error);

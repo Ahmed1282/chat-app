@@ -243,3 +243,71 @@ const Home: React.FC = () => {
 export default Home;
 
 //----------------------------------------------------//
+
+
+import { Server, Socket } from 'socket.io';
+import {  Users } from '../interfaces/user'
+
+const users: Users = {};
+
+export const setupSocket = (io: Server) => {
+    io.on('connection', (socket: Socket) => {
+        console.log(`User connected: ${socket.id}`);
+
+        socket.on('register', (data) => {
+            try {
+                const { userId } = data;
+                if (typeof userId !== 'number') return;
+
+                users[userId] = { socketId: socket.id, status: 'active' };
+
+                io.emit('update_users', Object.keys(users).map(id => ({
+                    id: Number(id),
+                    username: `User ${id}`,
+                    active: users[Number(id)].status === 'active',
+                })));
+            } catch (error) {
+                console.error('Error processing registration:', error);
+            }
+        });
+
+        socket.on('send_message', (data: any) => {
+            try {
+              const { fromId, toId, message } = data;
+              if (typeof fromId !== 'number' || typeof toId !== 'number' || typeof message !== 'string') return;
+          
+              const created_at = new Date().toISOString();
+              const messageData = { fromId, toId, message, created_at };
+          
+              const recipientSocketId = users[toId]?.socketId;
+              const senderSocketId = users[fromId]?.socketId;
+          
+              if (recipientSocketId) {
+                io.to(recipientSocketId).emit('receive_message', messageData);
+              }
+          
+              if (senderSocketId) {
+                io.to(senderSocketId).emit('receive_message', messageData);
+              }
+            } catch (error) {
+              console.error('Error processing message:', error);
+            }
+          });
+          
+
+        socket.on('disconnect', () => {
+            console.log(`User disconnected: ${socket.id}`);
+            Object.keys(users).forEach(userId => {
+                if (users[Number(userId)].socketId === socket.id) {
+                    delete users[Number(userId)];
+                }
+            });
+            io.emit('update_users', Object.keys(users).map(id => ({
+                id: Number(id),
+                username: `User ${id}`,
+                active: users[Number(id)].status === 'active',
+            })));
+        });
+    });
+};
+

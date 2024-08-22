@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+
 const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -10,7 +11,18 @@ const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   dialect: process.env.DB_DIALECT as 'postgres',
-  //logging: console.log, // Enables logging; set to `false` to disable
 });
+
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('DB Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    throw error;
+  }
+})();
+
+
 
 export default sequelize;

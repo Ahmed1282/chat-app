@@ -1,14 +1,11 @@
-// src/services/login-service.ts
-import axiosInstance from './axiosInstance';
+import axiosInstance from './axios';
 
 export const handleLogin = async (email: string, password: string) => {
   try {
-    const response = await axiosInstance.post('/api/users/login', {
+    const response = await axiosInstance.post('/v1/users/login', {
       email,
       password,
     });
-
-    console.log('Login successful:', response.data);
 
     const { userdata } = response.data;
     const authToken = userdata.token;
@@ -21,7 +18,7 @@ export const handleLogin = async (email: string, password: string) => {
       console.error('Unexpected response format:', response.data);
     }
 
-    window.location.href = 'http://localhost:5173/dashboard';
+    window.location.href = import.meta.env.VITE_DASHBOARD_URL as string;
   } catch (error) {
     console.error('Error during login:', error);
     alert('Error, kindly check your inputs');

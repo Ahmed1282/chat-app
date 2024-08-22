@@ -1,34 +1,27 @@
-import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
+import express, { Application } from 'express';
+import http, { Server as HttpServer } from 'http';
+import { Server as SocketServer } from 'socket.io';
 import cors from 'cors';
-import sequelize from './config/db';
-import userRoutes from './routes/userRoutes'; 
-import messageRoutes from './routes/messageRoutes'; 
-import chatRoutes from './routes/chatRoutes'; 
-import userschatRoutes from './routes/userschatRoutes'
-import { setupSocket } from './socket/socket'; 
+import apiRoutes from './routes/index'; 
+import { setupSocket } from './socket/socket';
+import './config/db'; 
+const port = process.env.SERVER_PORT || 3000;
 
-const app = express();
-const PORT = process.env.SERVER_PORT || 3000;
+const app: Application = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173' 
+    origin: '*' 
 }));
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
+app.use('/v1', apiRoutes); 
 
-app.use('/api/users', userRoutes);
-app.use('/api/message', messageRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/users-chat', userschatRoutes);
-
-const server = http.createServer(app);
-const io = new Server(server, {
+const server: HttpServer = http.createServer(app);
+const io: SocketServer = new SocketServer(server, {
     cors: {
-        origin: 'http://localhost:5173' 
+        origin: '*' 
     }
 });
 
@@ -36,12 +29,11 @@ setupSocket(io);
 
 (async () => {
     try {
-        await sequelize.authenticate();
-        console.log('DB Connection has been established successfully.');
-        server.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
+      server.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+      });
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+      console.error('Unable to start the server:', error);
     }
-})();
+  })();
+

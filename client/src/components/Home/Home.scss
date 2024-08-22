@@ -9,7 +9,7 @@
     width: 250px;
     background-color: #f4f4f4;
     border-right: 1px solid #ddd;
-    padding: 20px;
+    padding: 10px;
     top: 0;
     left: 0;
     height: 100vh;
@@ -18,7 +18,7 @@
 
   .chatbox {
     margin-left: 0px;
-    width: calc(100% - 250px);
+    flex: 1;  
     height: 100vh;
     display: flex;
     padding: 0px;
@@ -26,12 +26,42 @@
     background-color: #fafafa;
     color: #000;
 
+    .chat-title {
+      display: flex;
+      justify-content: space-between; 
+      align-items: center;
+      padding: 10px 20px; 
+      background-color: #f4f4f4;  
+      border-bottom: 1px solid #ddd;  
+      
+      h2 {
+        margin: 0;  
+        font-size: 1.2em;  
+        color: var(--Primary-Color, #06334D);
+      }
+
+      .logout-button {
+        background: var(--Blue-Fade-0, #0483f3);
+        color: #fff;
+        border: none;
+        padding: 8px 12px;  
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+
     .message-container {
       flex: 1;
       display: flex;
       flex-direction: column;
       border: 1px solid #ddd;
-      padding: 30px;
+      padding: 20px;
       background: var(--Button-Text, #E6EEF2);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
@@ -72,13 +102,13 @@
 
         textarea {
           width: 100%;
-          height: 80px;
+          height: 60px; 
           border-radius: 8px;
           border: 2px solid #B7DDF2;
           resize: none;
           box-sizing: border-box;
           background: #D6E7F0;
-          font-size: 1.5em;
+          font-size: 1.2em; 
           color: #000000;
           margin-right: 10px;
 

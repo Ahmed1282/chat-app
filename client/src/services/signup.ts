@@ -1,8 +1,8 @@
-// src/services/signup-service.ts
-
 import axios from 'axios';
 
-// Function to handle signup
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const LOGIN_URL = import.meta.env.VITE_LOGIN_URL;
+
 export const handleSignup = async (
   name: string,
   username: string,
@@ -11,7 +11,7 @@ export const handleSignup = async (
   email: string
 ): Promise<void> => {
   try {
-    await axios.post('http://localhost:3000/api/users/signup', {
+    await axios.post(`${API_BASE_URL}/v1/users/signup`, {
       name,
       username,
       password,
@@ -28,5 +28,5 @@ export const handleSignup = async (
 };
 
 export const redirectToLogin = () => {
-  window.location.href = 'http://localhost:5173/login';
+  window.location.href = LOGIN_URL;
 };

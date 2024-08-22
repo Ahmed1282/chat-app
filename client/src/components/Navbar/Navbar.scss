@@ -1,23 +1,19 @@
 .navbar {
-  padding: 0; /* Remove padding if it's causing alignment issues */
+  padding: 0;
   color: #333;
   display: flex;
+  width: 250px;
   flex-direction: column;
-  align-items: flex-start; /* Align items to the start of the sidebar */
+  align-items: flex-start;
 }
 
 .navbar-title {
   display: flex;
   flex-direction: column;
-  gap: 0px; /* No gap between the title and the line */
-  width: 100%; /* Ensures the title and line use the full width of the sidebar */
-  top: 16px;
   gap: 16px;
-  //opacity: 0px;
+  width: 100%;
+  top: 16px;
 }
-
-
-
 
 .title-text {
   font-family: 'Roboto', sans-serif;
@@ -26,24 +22,60 @@
   line-height: 23.44px;
   text-align: left;
   color: var(--Primary-Color, #06334D);
-  width: 100%; /* Makes sure the title is responsive */
-  box-sizing: border-box; /* Ensures padding and borders are included in the width */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .title-line {
-  width: 100%; /* Ensures the line is responsive */
+  width: 100%;
   border-top: 0.5px solid #005F93;
-  margin-top: 8px; /* Adjusts the spacing between the title and the line */
+  margin-top: 8px;
 }
 
 .user-item {
   padding: 10px;
   margin: 5px 0;
   cursor: pointer;
-  background-color: #f2f9ff;
+  width: 100%;
+  background-color: #f4f4f4;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  width: 200px;
+  justify-content: space-between;
+  &.selected {
+    background-color: #d0e7ff; 
+    border-left: 4px solid #0483f3; 
+  }
 }
 
 .user-item:hover {
   background-color: #e0f4ff;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.active {
+  background-color: green;
+}
+
+.inactive {
+  background-color: #e0f4ff;
+}
+
+.current-username {
+  margin-top: auto;
+  color: var(--Primary-Color, #06334D);
+  font-family: 'Roboto', sans-serif;
+  font-size: 25px;
+  padding-left: auto;
+  margin-top: calc(100vh - 200px);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

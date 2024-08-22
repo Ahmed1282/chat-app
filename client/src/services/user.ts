@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from './axiosInstance';
-
-interface Users {
-  [username: string]: number; // Maps username to user ID (number)
-}
+import axiosInstance from './axios';
+import { Users } from '../interfaces/user-interface'
 
 const useUserDetails = () => {
   const storedUser = localStorage.getItem('user');
@@ -11,7 +8,6 @@ const useUserDetails = () => {
   const [users, setUsers] = useState<Users>({});
   const [currentRecipientId, setCurrentRecipientId] = useState<number | null>(null);
 
-  // Retrieve username from local storage
   useEffect(() => {
     if (storedUser) {
       const user = JSON.parse(storedUser);
@@ -19,11 +15,10 @@ const useUserDetails = () => {
     }
   }, [storedUser]);
 
-  // Fetch users from API
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axiosInstance.get('/api/users/names');
+        const response = await axiosInstance.get('/v1/users/getAllUsers');
         const usersList = response.data;
         const usersObject: Users = {};
         usersList.forEach((user: { username: string; id: number }) => {
@@ -39,15 +34,15 @@ const useUserDetails = () => {
   }, []);
 
   const handleUserClick = (username: string, recipientId: number) => {
+    console.log(username)
     if (currentRecipientId === recipientId) {
-      return; // Avoid setting the same recipient again
+      return;
     }
-    console.log(`User clicked: ${username}, ID: ${recipientId}`);
+
     setCurrentRecipientId(recipientId);
   };
   
 
-  // Add setCurrentRecipientId to the return object
 return {
   username,
   users,
